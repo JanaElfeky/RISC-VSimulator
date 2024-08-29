@@ -1,0 +1,48 @@
+C code:
+// Find the minimum value in an array.
+#include <iostream>
+#include <array>
+
+constexpr size_t SIZE = 5;
+
+int main() {
+    std::array<int, SIZE> array{34, 78, 12, 9, 56};
+    int min = array[0];
+    for (size_t i = 1; i < SIZE; i++) {
+        if (array[i] < min) {
+            min = array[i];
+        }
+    }
+    std::cout << "Minimum value: " << min << std::endl;
+    return 0;
+}
+
+
+
+Assembly code:
+# Find the minimum value in an array
+ADDI x1, x0, 1  # i = 1
+ADDI x5, x0, 5  # SIZE = 5
+# Assume base address of array at 0x300
+LW x2, 0x300(x0) # Load first element as current min
+Loop: SLTI x3, x1, x5 # If i < SIZE
+      BEQ x3, x0, EndLoop
+      SLLI x3, x1, 2 # Offset for array[i]
+      ADD x3, x3, x0
+      LW x4, 0x300(x3) # Load array[i]
+      SLT x6, x4, x2  # If array[i] < min
+      BEQ x6, x0, Skip
+      ADDI x2, x4, 0  # Update min
+Skip: ADDI x1, x1, 1  # Increment i
+      J Loop
+EndLoop:
+HALT
+
+
+Data file:
+# Initial values for the array
+300 34
+304 78
+308 12
+312 9
+316 56

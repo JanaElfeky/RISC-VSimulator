@@ -1,0 +1,50 @@
+C code:
+// Count even numbers in an array.
+#include <iostream>
+#include <array>
+
+constexpr size_t SIZE = 5;
+
+int main() {
+    std::array<int, SIZE> array{12, 23, 45, 70, 32};
+    int count = 0;
+    for (size_t i = 0; i < SIZE; i++) {
+        if (array[i] % 2 == 0) {
+            count++;
+        }
+    }
+    std::cout << "Even numbers: " << count << std::endl;
+    return 0;
+}
+
+
+
+Assembly code:
+# Count even numbers in an array
+ADDI x1, x0, 0  # i = 0
+ADDI x5, x0, 5  # SIZE = 5
+ADDI x2, x0, 0  # count = 0
+# Assume base address of array at 0x400
+Loop: SLTI x3, x1, x5 # If i < SIZE
+      BEQ x3, x0, EndLoop
+      SLLI x3, x1, 2 # Offset for array[i]
+      ADD x3, x3, x0
+      LW x4, 0x400(x3) # Load array[i]
+      ANDI x6, x4, 1  # Check if LSB is 0 (even number)
+      BEQ x6, x0, Increment
+      J Skip
+Increment: ADDI x2, x2, 1 # Increment count
+Skip: ADDI x1, x1, 1  # Increment i
+      J Loop
+EndLoop:
+HALT
+
+
+Data file:
+# Initial values for the array
+400 12
+404 23
+408 45
+412 70
+416 32
+

@@ -1,0 +1,5 @@
+April 19, 1.00PM: met with the group and divided the    		  workload on the three of us
+April 23, 6.30PM: helped my group mates with brainstorming how to implement the functions and planned how to design the functions
+April 24, 3.00PM: started working on bonus features and wrote some test files
+April 26, 12:05PM: added printProgram() function
+April 27, 2.30PM: helped my group with finalizing the program

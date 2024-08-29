@@ -1,0 +1,47 @@
+C code:
+// Calculate the first N Fibonacci numbers.
+#include <iostream>
+#include <array>
+
+constexpr size_t SIZE = 10;
+
+int main() {
+    std::array<int, SIZE> fib{0, 1};  // Initialize the first two Fibonacci numbers
+    for (size_t i = 2; i < SIZE; i++) {
+        fib[i] = fib[i-1] + fib[i-2];
+    }
+    for (size_t i = 0; i < SIZE; i++) {
+        std::cout << fib[i] << " ";
+    }
+    std::cout << std::endl;
+    return 0;
+}
+
+
+
+Assembly code:
+# Calculate the first N Fibonacci numbers and store them in memory
+ADDI x1, x0, 0  # Index i = 0
+ADDI x5, x0, 10 # N = 10
+SLLI x6, x5, 2  # N * 4 = 40 (memory size needed)
+# Assume base address of Fibonacci sequence in memory at 0x200
+ADDI x7, x0, 0x200 # Base address of fib array
+SW x0, 0(x7)       # fib[0] = 0
+ADDI x8, x0, 1
+SW x8, 4(x7)       # fib[1] = 1
+ADDI x1, x1, 2     # i = 2
+Loop: SLTI x2, x1, x5 # If i < N
+      BEQ x2, x0, EndLoop
+      SUB x10, x1, x8 # Address offset for fib[i-1]
+      SLLI x10, x10, 2
+      LW x9, 0(x10)   # Load fib[i-1]
+      SUB x10, x1, x0 # Address offset for fib[i-2]
+      SLLI x10, x10, 2
+      LW x11, 0(x10)  # Load fib[i-2]
+      ADD x12, x9, x11 # fib[i] = fib[i-1] + fib[i-2]
+      SLLI x10, x1, 2
+      SW x12, 0(x10)  # Store fib[i]
+      ADDI x1, x1, 1  # Increment i
+      J Loop
+EndLoop:
+HALT

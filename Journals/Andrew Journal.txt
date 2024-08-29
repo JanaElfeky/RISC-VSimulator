@@ -1,0 +1,5 @@
+April 19, 1.00PM: met with the group and divided the    		  workload on the three of us
+April 23, 6.30PM: talked with my group about how to do the functions and started working on the parseInstruction function
+April 25, 12.00PM: did some more work on the parseInstruction function and wrote a few test cases for the bonus
+April 27, 2.30PM: finalized the parseInstruction function along with the help of my group
+

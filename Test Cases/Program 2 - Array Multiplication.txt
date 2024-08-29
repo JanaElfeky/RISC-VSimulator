@@ -1,0 +1,51 @@
+C code:
+// Multiply two arrays element-wise and store the result in a third array.
+#include <iostream>
+#include <array>
+
+constexpr size_t SIZE = 5;
+
+int main() {
+    std::array<int, SIZE> a{1, 2, 3, 4, 5};
+    std::array<int, SIZE> b{6, 7, 8, 9, 10};
+    std::array<int, SIZE> result;
+
+    for (size_t i = 0; i < SIZE; i++) {
+        result[i] = a[i] * b[i];
+        std::cout << result[i] << " ";
+    }
+    std::cout << std::endl;
+    return 0;
+}
+
+
+Assembly code:
+# Multiply two arrays element-wise
+ADDI x1, x0, 0  # i = 0
+ADDI x6, x0, 5  # SIZE = 5
+Loop: SLTI x7, x1, 5  # If i < SIZE
+      BEQ x7, x0, EndLoop
+      SLLI x7, x1, 2 # calculate 4*i (word index)
+      ADD x7, x7, x0 # base address of array a
+      LW x2, 0(x7)   # Load a[i]
+      LW x3, 64(x7)  # Load b[i] (0x140 - 0x100 = 64)
+      MUL x4, x2, x3 # result[i] = a[i] * b[i]
+      SW x4, 128(x7) # Store result[i] (0x180 - 0x100 = 128)
+      ADDI x1, x1, 1 # i++
+      J Loop
+EndLoop:
+HALT
+
+
+Data file:
+# Initial values for array a and b
+100 1
+104 2
+108 3
+112 4
+116 5
+140 6
+144 7
+148 8
+152 9
+156 10

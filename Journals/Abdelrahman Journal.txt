@@ -1,0 +1,5 @@
+April 19, 1.00PM: met with the group and divided the    		  workload on the three of us
+April 23, 6.30PM: discussed with my group about the design of the program more and how we will implement the functions
+April 24, 4.00PM: started implementing the execute function and started thinking about how to implement the second bonus feature
+April 25, 12.00PM: worked more on execute function and fixed some logical errors we had
+April 27, 2.30PM: finalized execute function with my group
